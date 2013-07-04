@@ -13,26 +13,60 @@ class ApplicationController < ActionController::Base
   protected
 
   def set_locale
-    if current_user
-      if current_user.language_preference.blank?
-        current_user.language_preference = extract_locale_from_accept_language_header
-      end
-      I18n.locale = current_user.language_preference
+    set_application_locale(best_available_locale)
+  end
+
+  def set_application_locale(locale)
+    locale = I18n.default_locale if locale.blank?
+    I18n.locale = locale
+  end
+
+  def best_available_locale
+    if locale_given_in_params?
+      locale = parse_locale_from_params
+      update_user_locale_preference(locale)
+      locale
     else
-      I18n.locale = extract_locale_from_accept_language_header
-    end
-    if params[:locale].present? && (Translation::LOCALES.include? params[:locale])
-      I18n.locale = params[:locale]
-      current_user.language_preference = params[:locale] if current_user
+      if user_locale_preference_exists?
+        current_user.language_preference
+      else
+        locale = parse_locale_from_request_header
+        update_user_locale_preference(locale)
+        locale
+      end
     end
   end
 
-  def extract_locale_from_accept_language_header
-    browser_locale = request.env['HTTP_ACCEPT_LANGUAGE'].try(:scan, /^[a-z]{2}/).try(:first).try(:to_s)
-    if Translation::LOCALES.include? browser_locale
-      browser_locale
+  def locale_given_in_params?
+    params[:locale].present?
+  end
+
+  def parse_locale_from_params
+    params[:locale] if (valid_locale?(params[:locale]) || experimental_locale?(params[:locale]))
+  end
+
+  def update_user_locale_preference(locale)
+    current_user.language_preference = locale if current_user
+  end
+
+  def user_locale_preference_exists?
+    current_user && current_user.language_preference.present?
+  end
+
+  def parse_locale_from_request_header
+    locale = request.env['HTTP_ACCEPT_LANGUAGE'].try(:scan, /^[a-z]{2}/).try(:first).try(:to_s)
+    if valid_locale? locale
+      locale
     else
-      I18n.default_locale
+      nil
     end
+  end
+
+  def valid_locale?(locale)
+    Translation.locales.include? locale
+  end
+
+  def experimental_locale?(locale)
+    Translation.experimental_locales.include? locale
   end
 end
