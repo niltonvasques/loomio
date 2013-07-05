@@ -2,22 +2,35 @@ require "spec_helper"
 
 describe GroupMailer do
 
-  describe 'sends email on membership request' do
-    before :all do
+  describe '#new_membership request' do
+    it 'sends email to all the admins' do
       @group = create(:group)
-      @group.add_admin!(create(:user))
-      @membership = @group.add_request!(create(:user))
-      @mail = GroupMailer.new_membership_request(@membership)
+      @user = create(:user)
+      @membership = @group.add_request!(@user)
+      mailer = double "mailer"
+
+      mailer.should_receive(:deliver)
+      GroupMailer.should_receive(:membership_request).with(@group.admins.first, @user, @group).
+        and_return(mailer)
+      GroupMailer.new_membership_request(@membership)
+    end
+  end
+
+  describe '#membership_request' do
+    before do
+      @group = create(:group)
+      @admin = create(:user, language_preference: "en")
+      @user = create(:user, language_preference: "en")
+      @mail = GroupMailer.membership_request(@admin, @user, @group)
     end
 
     it 'renders the subject' do
       @mail.subject.should ==
-        "[Loomio: #{@group.full_name}] New membership request from #{@membership.user.name}"
+        "[Loomio: #{@group.full_name}] New membership request from #{@user.name}"
     end
 
     it "sends email to group admins" do
-      pending "for some reason this is failing on travis"
-      @mail.to.should == @group.admins.map(&:email)
+      @mail.to.should == [@admin.email]
     end
 
     it 'renders the sender email' do
@@ -25,8 +38,7 @@ describe GroupMailer do
     end
 
     it 'assigns correct reply_to' do
-      pending "This spec is failing on travis for some reason..."
-      @mail.reply_to.should == [@group.admin_email]
+      @mail.reply_to.should == [@user.email]
     end
 
     it 'assigns confirmation_url for email body' do

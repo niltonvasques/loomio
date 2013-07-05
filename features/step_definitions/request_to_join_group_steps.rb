@@ -1,6 +1,6 @@
 Then /^the group admins should receive an email with subject "(.*?)"$/ do |subject|
   last_email = ActionMailer::Base.deliveries.last
-  last_email.to.should include *@group.admins.map(&:email)
+  last_email.to.should include @group.admins.last.email
   last_email.subject.should match(subject)
 end
 

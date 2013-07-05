@@ -2,11 +2,21 @@ class GroupMailer < BaseMailer
   def new_membership_request(membership)
     @user = membership.user
     @group = membership.group
-    @admins = @group.admins.map(&:email)
-    set_email_locale(User.find_by_email(@group.admin_email).language_preference, @user.language_preference)
-    mail  :to => @admins,
-          :reply_to => @group.admin_email,
-          :subject => "#{email_subject_prefix(@group.full_name)} " + t("email.membership_request.subject", who: @user.name)
+    @admins = @group.admins
+    @group.admins.each do |admin|
+      GroupMailer.membership_request(admin, @user, @group).deliver
+    end
+  end
+
+  def membership_request(admin, user, group)
+    @user = user
+    @group = group
+    locale = best_locale(admin.language_preference, @user.language_preference)
+    I18n.with_locale(locale) do
+      mail  :to => admin.email,
+            :reply_to => "#{@user.name} <#{@user.email}>",
+            :subject => "#{email_subject_prefix(@group.full_name)} " + t("email.membership_request.subject", who: @user.name)
+    end
   end
 
   def group_email(group, sender, subject, message, recipient)
@@ -14,10 +24,12 @@ class GroupMailer < BaseMailer
     @sender = sender
     @message = message
     @recipient = recipient
-    set_email_locale(recipient.language_preference, sender.language_preference)
-    mail  :to => @recipient.email,
-          :reply_to => "#{sender.name} <#{sender.email}>",
-          :subject => "#{email_subject_prefix(@group.full_name)} #{subject}"
+    locale = best_locale(recipient.language_preference, sender.language_preference)
+    I18n.with_locale(locale) do
+      mail  :to => @recipient.email,
+            :reply_to => "#{sender.name} <#{sender.email}>",
+            :subject => "#{email_subject_prefix(@group.full_name)} #{subject}"
+    end
   end
 
   def deliver_group_email(group, sender, subject, message)
