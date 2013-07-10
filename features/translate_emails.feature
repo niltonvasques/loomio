@@ -70,4 +70,4 @@ Feature: deliver emails in the user's prefered language
   Scenario: Group announcement email
     When "Eduardo" makes an announcement to the group
     Then "John" should receive the group email in English
-    And "Viv" should receive the group email in Spanish
+    And "Viv" should receive the group email in Spanish 
