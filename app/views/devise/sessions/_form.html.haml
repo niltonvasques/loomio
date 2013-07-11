@@ -7,4 +7,4 @@
   = f.input :remember_me, :as => :boolean, label: false, inline_label: t(:remember_me) if devise_mapping.rememberable?
   .sign-in-button
     = f.submit t(:sign_in), class: "btn, btn-info btn-large", id: "sign-in-btn", :data => { :disable_with => t(:sign_in) }
-= render :partial => "devise/shared/links"
+= render "devise/shared/links"

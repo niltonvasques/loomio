@@ -488,7 +488,8 @@ en:
 
   join_group:
     header: "%{who} invited you to join %{group_name}"
-    intro: "You'll need to sign up or sign in to continue."
+    sign_up_intro: "You'll need to create an account to join the group."
+    sign_in_intro: "You'll need to sign in to join the group."
 
   start_group:
     header: "Welcome to Loomio"
