@@ -94,5 +94,9 @@ module ApplicationHelper
   def show_contribution_icon?
     current_user && !current_user.belongs_to_paying_group?
   end
+
+  def email_belongs_to_existing_user?(email)
+    User.find_by_email(email).present?
+  end
 end
 
