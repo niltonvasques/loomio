@@ -20,9 +20,11 @@ class GroupRequestsController < BaseController
   end
 
   def subscription
+    @submit_label = "Start your free trial!"
   end
 
   def pwyc
+    @submit_label = "Sign up!"
   end
 
   private
