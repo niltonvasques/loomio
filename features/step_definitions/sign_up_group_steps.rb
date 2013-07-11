@@ -44,6 +44,13 @@ When(/^I fill in the group name and submit the form$/) do
   click_on 'Start your free trial!'
 end
 
+When(/^I sign in via the sign up page$/) do
+  click_on 'click here to sign in'
+  fill_in :user_email, with:  @user.email
+  fill_in :user_password, with: @user.password
+  find('#sign-in-btn').click()
+end
+
 Then(/^I should see my name and email in the form$/) do
   find('#group_request_admin_name').should have_content(@user.name)
 end

@@ -20,10 +20,10 @@ Loomio::Application.routes.draw do
   resources :group_requests, only: [:create] do
   end
 
-  get "/group_requests/selection", to: 'groups/group_requests#selection', as: :group_requests_selection
-  get "/group_requests/subscription", to: 'groups/group_requests#subscription', as: :group_requests_subscription
-  get "/group_requests/pwyc", to: 'groups/group_requests#pwyc', as: :group_requests_pwyc
-  get "/group_request/confirmation", to: "group_requests#confirmation", as: :group_request_confirmation
+  get "/group_requests/selection", to: 'group_requests#selection', as: :group_requests_selection
+  get "/group_requests/subscription", to: 'group_requests#subscription', as: :group_requests_subscription
+  get "/group_requests/pwyc", to: 'group_requests#pwyc', as: :group_requests_pwyc
+  get "/group_requests/confirmation", to: "group_requests#confirmation", as: :group_request_confirmation
 
   match "/request_new_group", to: "group_requests#new", as: :request_new_group
 

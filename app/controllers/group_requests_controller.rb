@@ -4,7 +4,7 @@ class GroupRequestsController < BaseController
 
   def create
     @group_request = GroupRequest.new(params[:group_request])
-    if @group_request.save!
+    if @group_request.save
       @setup_group = SetupGroup.new(@group_request)
       @setup_group.approve_group_request
       redirect_to group_request_confirmation_url
