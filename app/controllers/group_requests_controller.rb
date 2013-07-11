@@ -7,7 +7,7 @@ class GroupRequestsController < BaseController
     if @group_request.save
       @setup_group = SetupGroup.new(@group_request)
       @setup_group.approve_group_request
-      redirect_to group_request_confirmation_url
+      redirect_to confirmation_group_requests_url
     else
       render 'subscription'
     end

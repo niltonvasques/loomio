@@ -7,8 +7,8 @@ class SetupGroup
 
   def approve_group_request
     @group = Group.new
-    group_request.group = @group
     @group.name = group_request.name
+    group_request.group = @group
     group_request.approve!
     send_invitation_to_start_group(SetupGroup.find_or_create_helper_bot)
     @group.save!

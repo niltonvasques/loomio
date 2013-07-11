@@ -18,7 +18,7 @@ describe GroupRequestsController do
       end
       it "should redirect to the confirmation page" do
         put :create, group_request: group_request.attributes
-        response.should redirect_to(group_request_confirmation_url)
+        response.should redirect_to(confirmation_group_requests_url)
       end
     end
     context "group_request does not save" do

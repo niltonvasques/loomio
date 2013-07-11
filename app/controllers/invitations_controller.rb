@@ -59,11 +59,11 @@ class InvitationsController < ApplicationController
   end
 
   def redirect_to_group
-    # if @invitation.group.admins.include? current_user
-    #   redirect_to group_path(@invitation.group.id)
-    # else
-    redirect_to @invitation.group
-    # end
+    if @invitation.group.admins.include? current_user
+      redirect_to group_path(@invitation.group.id)
+    else
+      redirect_to @invitation.group
+    end
   end
 
   def render_signup_form

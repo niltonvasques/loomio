@@ -18,15 +18,13 @@ Loomio::Application.routes.draw do
   resources :invitations, only: [:show]
 
   resources :group_requests, only: [:create] do
+    collection do
+      get :selection
+      get :subscription
+      get :pwyc
+      get :confirmation
+    end
   end
-
-  get "/group_requests/selection", to: 'group_requests#selection', as: :group_requests_selection
-  get "/group_requests/subscription", to: 'group_requests#subscription', as: :group_requests_subscription
-  get "/group_requests/pwyc", to: 'group_requests#pwyc', as: :group_requests_pwyc
-  get "/group_requests/confirmation", to: "group_requests#confirmation", as: :group_request_confirmation
-
-  match "/request_new_group", to: "group_requests#new", as: :request_new_group
-
 
   resources :groups, except: [:index, :new] do
     resources :invitations, only: [:index, :destroy, :new, :create], controller: 'groups/invitations'
@@ -41,6 +39,9 @@ Loomio::Application.routes.draw do
        delete :cancel_request, as: :cancel_request_for
       end
     end
+
+    get :setup, on: :member, to: 'groups/group_setup#setup'
+    put :finish, on: :member, to: 'groups/group_setup#finish'
 
     post :add_members, on: :member
     post :hide_next_steps, on: :member

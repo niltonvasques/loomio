@@ -51,11 +51,17 @@ When(/^I sign in via the sign up page$/) do
   find('#sign-in-btn').click()
 end
 
+When(/^I setup the group$/) do
+  fill_in :group_description, with: "A collection of the finest herbs"
+  click_on 'Take me to my group!'
+end
+
 Then(/^I should see my name and email in the form$/) do
   find('#group_request_admin_name').should have_content(@user.name)
 end
 
 Then(/^I should see the thank you page$/) do
+  step %{the group is created}
   page.should have_css("body.group_requests.confirmation")
 end
 

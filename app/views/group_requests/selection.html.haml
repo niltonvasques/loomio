@@ -10,13 +10,13 @@
       %p
         Your group will be invoiced monthly after a
         %span#trial 30 day free trial.
-      = link_to 'Subscription',  group_requests_subscription_path, class: "btn btn-success btn-large btn-block"
+      = link_to 'Subscription',  subscription_group_requests_path, class: "btn btn-success btn-large btn-block"
   .span4
     .payment-model-box#informal-group
       %h2 Informal group
       %p.examples e.g. families, social movements, collectives
       %p Members of your group will be asked to pay what they can.
-      = link_to 'Pay what you can', group_requests_pwyc_path, class: "btn btn-info btn-large btn-block"
+      = link_to 'Pay what you can', pwyc_group_requests_path, class: "btn btn-info btn-large btn-block"
 
 .row
   .span7.offset1
