@@ -8,5 +8,4 @@ ActiveAdmin.register ErrorRaincheck do
 
     default_actions
   end
-
 end
