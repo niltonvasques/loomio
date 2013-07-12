@@ -13,7 +13,7 @@ Scenario: New user creates subscripton group
   When I click the invitation link
   And I sign up as a new user
   And I setup the group
-  Then I should see the group page
+  Then I should see the group page without a contribute link
 
 Scenario: Logged in existing user creates subscripton group
   Given I am logged in
@@ -24,7 +24,7 @@ Scenario: Logged in existing user creates subscripton group
   And I should recieve an email with an invitation link
   When I click the invitation link
   And I setup the group
-  Then I should see the group page
+  Then I should see the group page without a contribute link
 
 Scenario: Logged out existing user creates subscripton group
   Given I am on the home page of the website
@@ -37,7 +37,7 @@ Scenario: Logged out existing user creates subscripton group
   When I click the invitation link
   And I sign in via the sign up page
   And I setup the group
-  Then I should see the group page
+  Then I should see the group page without a contribute link
 
 Scenario: New user creates Pay What You Can group
   Given I am on the home page of the website

@@ -6,7 +6,7 @@ class GroupRequestsController < BaseController
     @group_request = GroupRequest.new(params[:group_request])
     if @group_request.save
       @setup_group = SetupGroup.new(@group_request)
-      @setup_group.approve_group_request
+      @setup_group.setup(params[:group_request][:paying_subscription])
       redirect_to confirmation_group_requests_url
     else
       render 'subscription'
@@ -20,10 +20,12 @@ class GroupRequestsController < BaseController
   end
 
   def subscription
+    @group_request.paying_subscription = true
     @submit_label = "Start your free trial!"
   end
 
   def pwyc
+    @group_request.paying_subscription = false
     @submit_label = "Sign up!"
   end
 

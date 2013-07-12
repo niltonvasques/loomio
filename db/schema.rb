@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625050817) do
+ActiveRecord::Schema.define(:version => 20130712000446) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(:version => 20130625050817) do
     t.text     "why_do_you_want"
     t.text     "group_core_purpose"
     t.text     "admin_notes"
+    t.boolean  "paying_subscription"
   end
 
   add_index "group_requests", ["group_id"], :name => "index_group_requests_on_group_id"
@@ -303,7 +304,6 @@ ActiveRecord::Schema.define(:version => 20130625050817) do
     t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "phase",               :default => "voting", :null => false
     t.string   "discussion_url",      :default => "",       :null => false
     t.datetime "close_at"
     t.integer  "discussion_id"
@@ -317,6 +317,7 @@ ActiveRecord::Schema.define(:version => 20130625050817) do
     t.integer  "no_votes_count",      :default => 0,        :null => false
     t.integer  "abstain_votes_count", :default => 0,        :null => false
     t.integer  "block_votes_count",   :default => 0,        :null => false
+    t.string   "phase",               :default => "voting"
   end
 
   add_index "motions", ["author_id"], :name => "index_motions_on_author_id"
@@ -363,14 +364,14 @@ ActiveRecord::Schema.define(:version => 20130625050817) do
     t.integer  "uploaded_avatar_file_size"
     t.datetime "uploaded_avatar_updated_at"
     t.string   "avatar_initials"
-    t.string   "username"
     t.boolean  "subscribed_to_daily_activity_email",                          :default => false,      :null => false
     t.boolean  "subscribed_to_mention_notifications",                         :default => true,       :null => false
     t.boolean  "subscribed_to_proposal_closure_notifications",                :default => true,       :null => false
+    t.string   "username"
     t.string   "authentication_token"
     t.string   "unsubscribe_token"
-    t.integer  "memberships_count",                                           :default => 0,          :null => false
     t.boolean  "uses_markdown",                                               :default => false
+    t.integer  "memberships_count",                                           :default => 0,          :null => false
     t.string   "language_preference"
     t.string   "time_zone"
   end

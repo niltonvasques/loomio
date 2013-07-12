@@ -5,17 +5,18 @@ class SetupGroup
     self.group_request = group_request
   end
 
-  def approve_group_request
+  def setup(paying_subscription)
     @group = Group.new
     @group.name = group_request.name
-    group_request.group = @group
-    group_request.approve!
-    send_invitation_to_start_group(SetupGroup.find_or_create_helper_bot)
+    @group.paying_subscription = paying_subscription
+    @group.group_request = group_request
     @group.save!
+    send_invitation_to_start_group
     @group
   end
 
-  def send_invitation_to_start_group(inviter)
+  def send_invitation_to_start_group()
+    inviter = SetupGroup.find_or_create_helper_bot
     invitation = CreateInvitation.to_start_group(group: group_request.group,
                                                 inviter: inviter,
                                                 recipient_email: group_request.admin_email)
