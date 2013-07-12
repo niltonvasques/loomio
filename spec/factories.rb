@@ -127,6 +127,7 @@ FactoryGirl.define do
     name { Faker::Name.name }
     admin_name { Faker::Name.name }
     admin_email { Faker::Internet.email }
+    paying_subscription {true}
   end
 
   factory :invitation do

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe GroupRequestsController do
   let(:group_request) { build :group_request }
-  let(:setup_group) { stub(approve_group_request: true) }
+  let(:setup_group) { stub(setup: true) }
   let(:user) { create :user }
 
   describe "#create" do
@@ -13,7 +13,7 @@ describe GroupRequestsController do
         put :create, group_request: group_request.attributes
       end
       it "approves the group request" do
-        setup_group.should_receive(:approve_group_request)
+        setup_group.should_receive(:setup)
         put :create, group_request: group_request.attributes
       end
       it "should redirect to the confirmation page" do
@@ -22,10 +22,20 @@ describe GroupRequestsController do
       end
     end
     context "group_request does not save" do
-      before { group_request.stub(:save!).and_return(false) }
-      it "should render to the subscription page" do
-        put :create, group_request: group_request.attributes
-        response.should render_template 'subscription'
+      before { group_request.stub(:save).and_return(false) }
+      context "paying subscription" do
+        before { group_request.stub(:paying_subscription).and_return(true) }
+        it "should render to the subscription page" do
+          put :create, group_request: group_request.attributes
+          response.should render_template 'subscription'
+        end
+      end
+      context "not paying subscription" do
+        before { group_request.stub(:paying_subscription).and_return(false) }
+        it "should render to the subscription page" do
+          put :create, group_request: group_request.attributes
+          response.should render_template 'pwyc'
+        end
       end
     end
   end

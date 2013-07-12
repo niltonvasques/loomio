@@ -4,12 +4,17 @@ class GroupRequestsController < BaseController
 
   def create
     @group_request = GroupRequest.new(params[:group_request])
+    @paying_subscription = params[:group_request][:paying_subscription]
     if @group_request.save
       @setup_group = SetupGroup.new(@group_request)
-      @setup_group.setup(params[:group_request][:paying_subscription])
+      @setup_group.setup(@paying_subscription)
       redirect_to confirmation_group_requests_url
     else
-      render 'subscription'
+      if @paying_subscription == true
+        render action: 'subscription'
+      else
+        render action: 'pwyc'
+      end
     end
   end
 

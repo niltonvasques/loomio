@@ -5,15 +5,15 @@
 
 body.group_requests {
   abbr { display: none; }
-  p { 
-    font-size: $font-medium-large; 
+  p {
+    font-size: $font-medium-large;
     font-weight: 300;
   }
   #informal-group { background-color: #D8EBF1; }
-  #organisation { 
-    background-color: #DEF1DE; 
+  #organisation {
+    background-color: #DEF1DE;
     p { font-style: italic;
-    span { font-weight: 700; }
+      span { font-weight: 700; }
     }
   }
   &.group_requests.subscription, &.group_requests.pwyc, &.group_requests.create {
@@ -24,10 +24,12 @@ body.group_requests {
         height: 22px;
         margin-top: 6px;
       }
+      label { font-size: 18px; }
       .btn {
         font-weight: 700;
         margin-top: 20px;
       }
+      .control-group { margin-bottom: 16px; }
     }
     h6 { font-weight: 400; }
     .info-box {
@@ -61,11 +63,12 @@ body.group_requests {
   }
   &.group_requests.selection {
     p { padding: 0 6px; }
-    .row:last-child { 
+    .row:last-child {
       p:last-child { font-weight: 700; }
     }
     .examples { font-style: italic; color: #777;}
     #intro { margin: 10px 10px 30px; }
+    #organisation p { font-style: normal; }
     #payment_models { margin-bottom: 30px; }
     #trial { font-weight: bold; }
     .payment-model-box {
