@@ -6,11 +6,11 @@ Given(/^I am on the group selection page$/) do
   page.should have_content("body.group_sign_up.new")
 end
 
-When(/^I click on the start new group link in the group dropdown$/) do
+When(/^I go to start a new group from the navbar$/) do
   find(".new-group a").click
 end
 
-When(/^I click the start new group button$/) do
+When(/^I go to start a new group$/) do
   click_on "start-group-btn"
 end
 
@@ -30,12 +30,12 @@ When(/^I click the invitation link$/) do
   # click_email_link_matching(invitation_url(@group_request.token))
 end
 
-When(/^I click the subscription button$/) do
+When(/^I choose the subscription plan$/) do
   @paying_subscription = true
   find("#organisation a").click
 end
 
-When(/^I click the pay what you can button$/) do
+When(/^I choose the pay what you can plan$/) do
   @paying_subscription = false
   find("#informal-group a").click
 end
@@ -46,8 +46,11 @@ When(/^I fill in the group name and submit the form$/) do
   click_on 'sign-up-submit'
 end
 
-When(/^I sign in via the sign up page$/) do
+When(/^I click the sign in link on the sign up page$/) do
   click_on 'click here to sign in'
+end
+
+When(/^I sign in to Loomio$/) do
   fill_in :user_email, with:  @user.email
   fill_in :user_password, with: @user.password
   find('#sign-in-btn').click()
