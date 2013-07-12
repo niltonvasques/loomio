@@ -19,8 +19,8 @@ class SetupGroup
     inviter = SetupGroup.find_or_create_helper_bot
     invitation = CreateInvitation.to_start_group(group: group_request.group,
                                                 inviter: inviter,
-                                                recipient_email: group_request.admin_email)
-
+                                                recipient_email: group_request.admin_email,
+                                                recipient_name: group_request.admin_name)
     InvitePeopleMailer.to_start_group(invitation, inviter.email).deliver
     invitation
   end

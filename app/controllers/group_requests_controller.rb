@@ -21,12 +21,10 @@ class GroupRequestsController < BaseController
 
   def subscription
     @group_request.paying_subscription = true
-    @submit_label = "Start your free trial!"
   end
 
   def pwyc
     @group_request.paying_subscription = false
-    @submit_label = "Sign up!"
   end
 
   private

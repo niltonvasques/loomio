@@ -1,8 +1,6 @@
 ActiveAdmin.register GroupRequest do
   actions :all, :except => [:new]
-  scope :waiting, :default => true
   scope :starred
-  scope :unverified
   scope :zero_members
   scope :approved_but_not_setup
   scope :setup_completed

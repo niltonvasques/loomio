@@ -2,7 +2,7 @@
 %html
   %h1= t("email.invitation.header")
 
-  %p= t("email.invitation.hi", name: @invitation.recipient_email)
+  %p= t("email.invitation.hi", name: @invitation.recipient_name)
 
   %p= t("email.invitation.intro", group_name: @invitation.group_name)
 
