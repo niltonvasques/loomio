@@ -1,8 +1,8 @@
 = t("email.invitation.header")
 \
-= t("email.invitation.hi", name: "Mix master Jerving")
+= t("email.invitation.hi", name: @invitation.recipient_email)
 \
-= t("email.invitation.intro", group_name: "Jimmies on Jammies")
+= t("email.invitation.intro", group_name: @invitation.group_name)
 \
 = invitation_url(@invitation)
 \

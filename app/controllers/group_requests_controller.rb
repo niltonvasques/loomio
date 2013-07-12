@@ -4,10 +4,10 @@ class GroupRequestsController < BaseController
 
   def create
     @group_request = GroupRequest.new(params[:group_request])
-    if @group_request.save!
+    if @group_request.save
       @setup_group = SetupGroup.new(@group_request)
-      @setup_group.approve_group_request
-      redirect_to group_request_confirmation_url
+      @setup_group.setup(params[:group_request][:paying_subscription])
+      redirect_to confirmation_group_requests_url
     else
       render 'subscription'
     end
@@ -20,9 +20,11 @@ class GroupRequestsController < BaseController
   end
 
   def subscription
+    @group_request.paying_subscription = true
   end
 
   def pwyc
+    @group_request.paying_subscription = false
   end
 
   private
