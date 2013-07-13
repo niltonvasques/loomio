@@ -145,6 +145,9 @@ Loomio::Application.routes.draw do
     post :send_request, on: :collection
   end
 
+  #redirect old request for new group
+  match "/request_new_group", to: "group_requests#selection"
+
   #redirect old invites
   match "/groups/:id/invitations/:token" => "group_requests#start_new_group"
 
