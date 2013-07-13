@@ -60,7 +60,7 @@ class InvitationsController < ApplicationController
 
   def redirect_to_group
     if @invitation.group.admins.include? current_user
-      redirect_to group_path(@invitation.group.id)
+      redirect_to setup_group_path(@invitation.group.id)
     else
       redirect_to @invitation.group
     end

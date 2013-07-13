@@ -26,14 +26,14 @@ describe GroupRequestsController do
       context "paying subscription" do
         it "should render to the subscription action" do
           put :create, group_request: group_request.attributes,
-                       group_request: { paying_subscription: true }
+                       group_request: { paying_subscription: 'true' }
           response.should render_template 'subscription'
         end
       end
       context "not paying subscription" do
         it "should render to the pwyc action" do
           put :create, group_request: group_request.attributes,
-                       group_request: { paying_subscription: false }
+                       group_request: { paying_subscription: 'false' }
           response.body.should render_template 'pwyc'
         end
       end

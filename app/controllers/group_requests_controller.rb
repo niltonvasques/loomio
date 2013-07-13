@@ -10,7 +10,8 @@ class GroupRequestsController < BaseController
       @setup_group.setup(@paying_subscription)
       redirect_to confirmation_group_requests_url
     else
-      if @paying_subscription == true
+      @group_request.paying_subscription = @paying_subscription
+      if @paying_subscription == 'true'
         render action: 'subscription'
       else
         render action: 'pwyc'
