@@ -24,17 +24,17 @@ describe GroupRequestsController do
     context "group_request does not save" do
       before { group_request.stub(:save).and_return(false) }
       context "paying subscription" do
-        before { group_request.stub(:paying_subscription).and_return(true) }
-        it "should render to the subscription page" do
-          put :create, group_request: group_request.attributes
+        it "should render to the subscription action" do
+          put :create, group_request: group_request.attributes,
+                       group_request: { paying_subscription: true }
           response.should render_template 'subscription'
         end
       end
       context "not paying subscription" do
-        before { group_request.stub(:paying_subscription).and_return(false) }
-        it "should render to the subscription page" do
-          put :create, group_request: group_request.attributes
-          response.should render_template 'pwyc'
+        it "should render to the pwyc action" do
+          put :create, group_request: group_request.attributes,
+                       group_request: { paying_subscription: false }
+          response.body.should render_template 'pwyc'
         end
       end
     end
