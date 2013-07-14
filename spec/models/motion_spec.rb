@@ -249,7 +249,7 @@ describe Motion do
     end
     it "returns the pecentage of users that have voted" do
       @motion.stub(:no_vote_count).and_return(10)
-      @motion.stub(:group_count).and_return(20)
+      @motion.stub(:group_member_count).and_return(20)
       @motion.percent_voted.should == 50
     end
   end

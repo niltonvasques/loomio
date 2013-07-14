@@ -12,7 +12,7 @@
       %td= @motion.author.name
 
     %tr
-      %th.nowrap= t "email.proposal_closing_soon.closes_in"
+      %th.nowrap= t :"email.proposal_closing_soon.closes_in"
       %td= time_ago_in_words(@motion.closing_at) + " (" + @motion.closing_at.localtime.strftime('%a %d %b %Y, %I:%M%p, %Z') + ")"
 
     - if @rendered_motion_description.present?
@@ -26,7 +26,7 @@
       %th &nbsp;
       %td &nbsp;
     %tr
-      %th= t "proposal_closing_soon.summary"
+      %th= t :"proposal_closing_soon.summary"
       %td
         -#-if @motion.user_has_voted?(@user)
           -#- vote = @user.get_vote_for(@motion)
@@ -40,8 +40,8 @@
         %br
         = t :engagement_on_open_proposal,
               percent: @motion.percent_voted,
-              numerator: @motion.group_count - @motion.no_vote_count,
-              denominator: @motion.group_count
+              numerator: @motion.group_member_count - @motion.no_vote_count,
+              denominator: @motion.group_member_count
     %tr
       %th &nbsp;
       %td &nbsp;
@@ -57,6 +57,6 @@
                 -if vote.statement.present?
                   = vote.statement
 
-  %p= link_to(t("email.view_proposal"), motion_url(@motion))
+  %p= link_to(t(:"email.view_proposal"), motion_url(@motion))
 
   =render 'unsubscribe_link'

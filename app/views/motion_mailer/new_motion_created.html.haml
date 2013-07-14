@@ -15,7 +15,7 @@
       %td= @motion.author.name
 
     %tr
-      %th.nowrap= t("email.create_proposal.closes_in")
+      %th.nowrap= t(:"email.create_proposal.closes_in")
       %td= time_ago_in_words(@motion.closing_at) + " (" + @motion.closing_at.localtime.strftime('%a %d %b %Y, %I:%M%p, %Z') + ")"
 
     - if @rendered_motion_description.present?

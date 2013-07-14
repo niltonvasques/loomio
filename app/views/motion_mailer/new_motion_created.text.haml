@@ -12,7 +12,7 @@
 = "#{t(:author)}:"
 = @motion.author.name
 \
-= "#{t('email.create_proposal.closes_in')}:"
+= "#{t(:'email.create_proposal.closes_in')}:"
 = time_ago_in_words(@motion.closing_at) + " (" + @motion.closing_at.localtime.strftime('%a %d %b %Y, %I:%M%p, %Z') + ")"
 \
 - if @motion.description.present?

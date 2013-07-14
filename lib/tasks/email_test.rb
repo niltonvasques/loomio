@@ -71,7 +71,7 @@ def create_motion(in_discussion)
       close_date:         Time.now+rand(300).minutes,
       votes_for_graph:    [["Yes (1)", 1, "Yes", [["himful@gmail.com"]]], ["Abstain (0)", 0, "Abstain", [[]]], ["No (0)", 0, "No", [[]]], ["Block (1)", 1, "Block", [["bob@lick.com"]]]],
       percent_voted:      50,
-      group_count:        22,
+      group_member_count:        22,
       no_vote_count:      11
 end
 
@@ -82,7 +82,6 @@ def create_vote
       position_to_s:      ['agreed', 'abstained', 'disagreed', 'blocked'].sample,
       statement:          Faker::Lorem.paragraph(rand(0..2))
 end
-
 
 describe "Test Email:" do
   let (:addresses) { ['loomio.test.account@outlook.com'] }
@@ -123,6 +122,12 @@ describe "Test Email:" do
     token:              ('a'..'z').to_a.sample(25).join
   }
 
+  let(:membership_request) { stub_model MembershipRequest,
+    group:              group,
+    name:               Faker::Name.name,
+    email:              Faker::Internet.email
+  }
+
   describe "Discussion Mailer:" do
     it "new_discussion_created" do
       puts ' '
@@ -145,7 +150,8 @@ describe "Test Email:" do
       addresses.each do |email|
         admin.stub email: email
         User.stub(:find_by_email).and_return(admin)
-        GroupMailer.new_membership_request(membership).deliver
+        membership_request.stub(:requestor)
+        GroupMailer.new_membership_request(membership_request).deliver
         puts " ~ SENT (#{email})"
       end
     end
@@ -167,6 +173,24 @@ describe "Test Email:" do
    ### SKIP: this mailer just iterates above mailer ###
     # it "deliver_group_email" do
     # end
+  end
+
+  describe "Invite People Mailer" do
+    it "after_membership_request_approval" do
+      puts ' '
+      puts 'AFTER_MEMBERSHIP_REQUEST_APPROVAL'
+
+      addresses.each do |email|
+        membership_request.stub email: email
+
+        invitation = CreateInvitation.after_membership_request_approval( recipient_email: membership_request.email,
+                                                                         inviter: admin,
+                                                                         group: membership_request.group )
+
+        InvitePeopleMailer.after_membership_request_approval(invitation, admin.email , '').deliver
+        puts " ~ SENT (#{email})"
+      end
+    end
   end
 
   describe "Motion Mailer:" do

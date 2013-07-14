@@ -8,7 +8,7 @@ class NotificationItems::MotionClosingSoon < NotificationItem
   end
 
   def action_text
-    I18n.t('notifications.motion_closing_soon') + ": "
+    I18n.t(:'notifications.motion_closing_soon') + ": "
   end
 
   def title

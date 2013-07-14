@@ -136,4 +136,9 @@ FactoryGirl.define do
     intent {'join_group'}
     association :inviter, factory: :user
   end
+
+  factory :membership_request do
+    introduction { Faker::Lorem.sentence(4) }
+    group
+  end
 end

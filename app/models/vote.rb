@@ -9,16 +9,15 @@ class Vote < ActiveRecord::Base
   class ClosableValidator < ActiveModel::EachValidator
     def validate_each(object, attribute, value)
       if object.motion && (not object.motion.voting?)
-        object.errors.add attribute,
-          "can only be modified while the motion is in voting phase."
+        object.errors.add attribute, "can only be modified while the motion is open."
       end
     end
   end
 
   POSITIONS = %w[yes abstain no block]
-  POSITION_VERBS = { 'yes' => 'agreed', 
+  POSITION_VERBS = { 'yes' => 'agreed',
                      'abstain' => 'abstained',
-                     'no' => 'disagreed', 
+                     'no' => 'disagreed',
                      'block' => 'blocked' }
   belongs_to :motion
   belongs_to :user

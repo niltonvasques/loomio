@@ -66,8 +66,11 @@
 
 #content-proposal{
   margin-left: 0px;
+  padding-top: 10px;
 
-  #closing-info { font-size: $font-small; }
+  #closing-info {
+    font-size: $font-smaller;
+    color: $mid-grey; }
 
   #close-voting {
     float: right;
@@ -103,8 +106,6 @@
     width: 270px;
     padding-right: 5px;
   }
-
-  .motion-title { margin-top: 3px; }
 
   .new-proposal-btn {
     float: left;
@@ -161,7 +162,9 @@
   .proposal-title-container { width: 305px; }
 
   .proposed-by {
-    font-size: $font-small;
+    color: $mid-grey;
+    font-size: $font-smaller;
+    margin-bottom: 20px;
   }
 
   .percentage-to-vote {
@@ -213,12 +216,16 @@
       font-size: $font-tiny;
       float: left;
     }
+
+    .user-name {
+      font-weight: bold;
+      margin-right: 8px;
+    }
   }
 
   .toggle-yet-to-vote{
     color: $mid-grey;
     font-size: $font-tiny;
-    margin: 10px 0 0 5px;
   }
 }
 

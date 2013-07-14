@@ -32,7 +32,7 @@ class Motion < ActiveRecord::Base
   attr_accessible :name, :description, :discussion_url, :discussion_id
   attr_accessible :close_at_date, :close_at_time, :close_at_time_zone, :outcome
 
-  scope :voting, where('closed_at IS NULL').order('closed_at ASC')
+  scope :voting, where('closed_at IS NULL').order('closing_at ASC')
   scope :closed, where('closed_at IS NOT NULL').order('closed_at DESC')
   scope :that_user_has_voted_on, lambda {|user|
     joins(:votes).where("votes.user_id = ?", user.id)
@@ -55,7 +55,7 @@ class Motion < ActiveRecord::Base
     self.closed_at = Time.now
     save!
     fire_motion_closed_event(user)
-   end
+  end
 
   def close_if_expired
     close! if closing_at <= Time.now
@@ -79,17 +79,14 @@ class Motion < ActiveRecord::Base
   end
 
   def last_looked_at_by(user)
-    read_log_for(user).motion_last_viewed_at if read_log_for(user)
+    read_log_for(user).try(:motion_last_viewed_at)
   end
 
 
 ### vote methods ###
 
   def blocked?
-    unique_votes.each do |v|
-      return true if v.position == "block"
-    end
-    false
+    unique_votes.any? { |v| v.position == 'block' }
   end
 
   def with_votes
@@ -147,12 +144,12 @@ class Motion < ActiveRecord::Base
   end
 
   def no_vote_count
-    return group_count - unique_votes.count if voting?
+    return group_member_count - unique_votes.count if voting?
     did_not_votes.count
   end
 
   def percent_voted
-    (100-(no_vote_count/group_count.to_f * 100)).to_i
+    (100-(no_vote_count/group_member_count.to_f * 100)).to_i
   end
 
   def number_of_votes_since(time)
@@ -187,13 +184,13 @@ class Motion < ActiveRecord::Base
 
 ### group methods ###
 
-  def group_count
+  def group_member_count
     return group.users.count if voting?
     unique_votes.count + no_vote_count
   end
 
   def group_members
-    group.user/spec/models/vote_spec.rbs
+    group.users
   end
 
   def move_to_group(group)
