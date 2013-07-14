@@ -272,6 +272,26 @@ ActiveRecord::Schema.define(:version => 20130629092802) do
   add_index "invitations", ["group_id"], :name => "index_invitations_on_group_id"
   add_index "invitations", ["token"], :name => "index_invitations_on_token"
 
+  create_table "membership_requests", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.text     "introduction"
+    t.integer  "group_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "requestor_id"
+    t.integer  "responder_id"
+    t.string   "response"
+    t.datetime "responded_at"
+  end
+
+  add_index "membership_requests", ["email"], :name => "index_membership_requests_on_email"
+  add_index "membership_requests", ["group_id"], :name => "index_membership_requests_on_group_id"
+  add_index "membership_requests", ["name"], :name => "index_membership_requests_on_name"
+  add_index "membership_requests", ["requestor_id"], :name => "index_membership_requests_on_requestor_id"
+  add_index "membership_requests", ["responder_id"], :name => "index_membership_requests_on_responder_id"
+  add_index "membership_requests", ["response"], :name => "index_membership_requests_on_response"
+
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
@@ -312,7 +332,6 @@ ActiveRecord::Schema.define(:version => 20130629092802) do
     t.date     "close_at_date"
     t.string   "close_at_time"
     t.string   "close_at_time_zone"
-    t.text     "edit_message"
     t.integer  "yes_votes_count",     :default => 0,    :null => false
     t.integer  "no_votes_count",      :default => 0,    :null => false
     t.integer  "abstain_votes_count", :default => 0,    :null => false
@@ -364,14 +383,14 @@ ActiveRecord::Schema.define(:version => 20130629092802) do
     t.integer  "uploaded_avatar_file_size"
     t.datetime "uploaded_avatar_updated_at"
     t.string   "avatar_initials"
+    t.string   "username"
     t.boolean  "subscribed_to_daily_activity_email",                          :default => false,      :null => false
     t.boolean  "subscribed_to_mention_notifications",                         :default => true,       :null => false
     t.boolean  "subscribed_to_proposal_closure_notifications",                :default => true,       :null => false
-    t.string   "username"
     t.string   "authentication_token"
     t.string   "unsubscribe_token"
-    t.boolean  "uses_markdown",                                               :default => false
     t.integer  "memberships_count",                                           :default => 0,          :null => false
+    t.boolean  "uses_markdown",                                               :default => false
     t.string   "language_preference"
     t.string   "time_zone"
   end
